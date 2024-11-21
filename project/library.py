@@ -48,7 +48,7 @@ class Library:
     
     def find_books(self, search_term:str) -> list:
         """
-        This is a method look up book by string's termns
+        TODO: This is a method look up book by string's termns
         :param search_term: str. This is the title or author, or year
         :return:
         """
@@ -60,3 +60,14 @@ class Library:
              else False)).all()
         return results
     
+    def display_books(self) -> None:
+        """
+        TODO: Public an all books from library
+        """
+        books = self.session.query(Books).all()
+        if not books:
+            print("Нет доступных книг.")
+            return
+        for book in books:
+            print(f"ID: {book.id}, Название: {book.title}, \
+            Автор: {book.author}, Год: {book.year}, Статус: {book.status}")
