@@ -22,11 +22,11 @@ class Status(enum.Enum):
 
 class Books(Base):
     """
-    Thi is a db table the books
-    :param title: str. This is a name book.
-    :param author: str.
-    :param year: int. This is a year when this is book was created.
-    :param status: is "в наличии" or "выдана"
+    TODO:Thi is a db table the books
+        :param title: str. This is a name book.
+        :param author: str.
+        :param year: int. This is a year when this is book was created.
+        :param status: is "в наличии" or "выдана"
     """
     __tablename__ = "books"
     

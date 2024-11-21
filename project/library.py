@@ -10,4 +10,13 @@ class Library:
                  author: str,
                  year: int,
                  status="в наличии"):
-        pass
+        new_book = Books(
+            title=title,
+            author=author,
+            year=year,
+            status=status
+        )
+        self.session.add(new_book)
+        self.session.commit()
+        print(f"Книга '{title}' добавлена.")
+        
