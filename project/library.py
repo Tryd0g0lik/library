@@ -46,10 +46,17 @@ class Library:
                                 f"Книга с ID {book_id} не найдена.")
         print(f"[Library]: {status_text}")
     
-    def find_books(self, search_term:str) -> None:
+    def find_books(self, search_term:str) -> list:
         """
         This is a method look up book by string's termns
         :param search_term: str. This is the title or author, or year
         :return:
         """
-        results = None
+        results: list = self.session.query(Books).filter(
+            (Books.title.ilike(f"%{search_term}%")) |
+            (Books.author.ilike(f"%{search_term}%")) |
+            (Books.year == int(search_term)
+             if search_term.isdigit()
+             else False)).all()
+        return results
+    
