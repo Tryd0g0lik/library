@@ -35,3 +35,6 @@ class Book(Base):
 engine = create_engine(DATABASE_URL)
 Base.metadata.create_all()
 Session = sessionmaker(bind=engine)
+
+def get_session():
+    return Session()
