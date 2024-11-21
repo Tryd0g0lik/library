@@ -37,15 +37,15 @@ class Library:
         :param book_id: int.
         :return:
         """
-        book = self.session.query(Books).filter_by(id=book_id)
+        book = self.session.query(Books).filter_by(id=book_id).first()
         status_text = "None"
         if book:
             self.session.delete(book)
             self.session.commit()
-            status_text.replace("None",
+            status_text = status_text.replace("None",
                                 f"Книга с ID {book_id} удалена.")
         else:
-            status_text.replace("None",
+            status_text = status_text.replace("None",
                                 f"Книга с ID {book_id} не найдена.")
         print(f"[Library]: {status_text}")
     
@@ -83,15 +83,22 @@ class Library:
         :param new_status: str. Is "в наличии" or "выдана"
         :return:
         """
+        if not book_id:
+            print(f"[Library]: Проверьте id книги.")
+            
         if new_status != "в наличии" and new_status != "выдана":
             print(f"[Library]: Проверьте статус.")
             return
-        book = self.session.query(Books).filter_by(id=book_id).first()
-        if not book:
-            print(f"[Library]: Книга с ID {book_id} не найдена. Проверьте ID")
-            return
-        if new_status in ["в наличии", "выдана"]:
-            book.status = new_status
-            self.session.commit()
+        
+        try:
+            book = self.session.query(Books).filter_by(id=int(book_id)).first()
+            if not book:
+                print(f"[Library]: Книга с ID {book_id} не найдена. Проверьте ID")
+                return
+            if new_status in ["в наличии", "выдана"]:
+                book.status = new_status
+                self.session.commit()
             print(f"[Library]: Статус книги с ID {book_id} \
 изменен на '{new_status}'.")
+        except Exception as e:
+            print(f"[Library]: Проверьте id книги. ERROR => {e}")

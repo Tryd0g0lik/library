@@ -7,8 +7,8 @@ from dotenv_ import APP_POSTGRES_DBNAME
 
 def main():
     library = Library()
-    
-    while True:
+    status = True
+    while status:
         print("\nМеню управления библиотекой:")
         print("1. Добавить книгу")
         print("2. Удалить книгу")
@@ -23,11 +23,18 @@ def main():
             title = input("Введите название книги: ")
             author = input("Введите автора: ")
             year = int(input("Введите год издания: "))
+            # CHECK
+            if len(author) == 0:
+                author = "anonim"
+            if len(str(year)) == 0 or len(title) == 0:
+                print("Не все поля заполнены.")
+                status = False
+                return
             library.add_hook(title, author, year)
         
         elif choice == '2':
             book_id = int(input("Введите ID книги для удаления: "))
-            library.remove_book(book_id)
+            library.remove_book(int(book_id))
         
         elif choice == '3':
             search_term = input(
@@ -46,7 +53,7 @@ def main():
             library.display_books()
         
         elif choice == '5':
-            book_id = int(input("Введите ID книги для изменения статуса: "))
+            book_id = input("Введите ID книги для изменения статуса: ")
             new_status = input("Введите новый статус (в наличии/выдана): ")
             library.change_status(book_id, new_status)
         

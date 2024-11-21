@@ -13,14 +13,6 @@ from project.postcresbase import create_db, create_database_if_not_exsists
 # Create the basic class for declarative class
 Base = declarative_base()
 
-class Status(enum.Enum):
-    """
-    This is a db for choose a book status.
-    """
-    AVAILABILITY = "в наличии"
-    ISSUANCE = "выдана"
-    
-
 class Books(Base):
     """
     TODO:Thi is a db table the books
@@ -35,7 +27,7 @@ class Books(Base):
     title = Column(String, nullable=False, unique=True)
     author = Column(String, default="anonim")
     year = Column(Integer, nullable=False)
-    status = Mapped[Status]
+    status = Column(String, default="в наличии")
 
 create_database_if_not_exsists(f"{APP_POSTGRES_DBNAME}")
 # Create an engine

@@ -30,7 +30,6 @@ def create_database_if_not_exsists(db_name: str)-> bool:
     cursor = connection.cursor()
     
     # CHECK availability the tb_name of the postgres
-    sql_text = "SELECT 1 FROM pg_database WHERE datname = %s"
     cursor.execute(sql.SQL("SELECT 1 FROM pg_database WHERE datname = %s"),[db_name])
     exists = cursor.fetchone()
     
@@ -39,11 +38,11 @@ def create_database_if_not_exsists(db_name: str)-> bool:
     if not exists:
         sql_text = f"CREATE DATABASE {db_name}"
         cursor.execute(sql.SQL(sql_text))
-        status_text.replace("None",
+        status_text = status_text.replace("None",
                             f"[postgreSQL]: База данных '{db_name}' успешно создана.")
         status = True
     else:
-        status_text.replace("None",
+        status_text = status_text.replace("None",
                             f"[postgreSQL]: База данных '{db_name}' уже существует.")
 
     print(status_text)
