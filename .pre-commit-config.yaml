@@ -5,7 +5,7 @@ repos:
       - id: trailing-whitespace
         files: \.py$
       - id: end-of-file-fixer
-        language_version: "3.9"
+        language_version: "3.10"
       - id: check-yaml
         exclude: ^venv/, */frontend
   - repo: https://github.com/PyCQA/flake8
@@ -21,7 +21,7 @@ repos:
       - id: black
         files: \.py$
         exclude: ^venv/, */frontend
-        language_version: "3.9"
+        language_version: "3.10"
   - repo: https://github.com/PyCQA/pylint
     # https://pylint.readthedocs.io/en/latest/user_guide/messages/warning/f-string-without-interpolation.html
     rev: v3.2.7

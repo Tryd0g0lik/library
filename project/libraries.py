@@ -1,15 +1,21 @@
-"""Here is a logic for work with db"""
-from project.models import (get_session, Books)
+"""
+Here is a logic for work with db.
+This is a management for control the books
+"""
+
+from project.models import Books, get_session
+
 
 class Library:
+    """
+    This is a management for control the books
+    """
+
     def __init__(self):
+
         self.session = get_session()
-    
-    def add_hook(self,
-                 title: str,
-                 author: str,
-                 year: int,
-                 status="в наличии") -> None:
+
+    def add_hook(self, title: str, author: str, year: int, status="в наличии") -> None:
         """
         TODO: Add a new bork
         :param title: str. This is a name book.
@@ -21,16 +27,11 @@ class Library:
         if status != "в наличии" and status != "выдана":
             print(f"[Library]: Книга '{title}' не добавлена. Неизвестный статус.")
             return
-        new_book = Books(
-            title=title,
-            author=author,
-            year=year,
-            status=status
-        )
+        new_book = Books(title=title, author=author, year=year, status=status)
         self.session.add(new_book)
         self.session.commit()
         print(f"[Library]: Книга '{title}' добавлена.")
-       
+
     def remove_book(self, book_id: int) -> None:
         """
         TODO: Here, we remove a book by book's index
@@ -42,27 +43,30 @@ class Library:
         if book:
             self.session.delete(book)
             self.session.commit()
-            status_text = status_text.replace("None",
-                                f"Книга с ID {book_id} удалена.")
+            status_text = status_text.replace("None", f"Книга с ID {book_id} удалена.")
         else:
-            status_text = status_text.replace("None",
-                                f"Книга с ID {book_id} не найдена.")
+            status_text = status_text.replace(
+                "None", f"Книга с ID {book_id} не найдена."
+            )
         print(f"[Library]: {status_text}")
-    
-    def find_books(self, search_term:str) -> list:
+
+    def find_books(self, search_term: str) -> list:
         """
         TODO: This is a method look up book by string's termns
         :param search_term: str. This is the title or author, or year
         :return:
         """
-        results: list = self.session.query(Books).filter(
-            (Books.title.ilike(f"%{search_term}%")) |
-            (Books.author.ilike(f"%{search_term}%")) |
-            (Books.year == int(search_term)
-             if search_term.isdigit()
-             else False)).all()
+        results: list = (
+            self.session.query(Books)
+            .filter(
+                (Books.title.ilike(f"%{search_term}%"))
+                | (Books.author.ilike(f"%{search_term}%"))
+                | (Books.year == int(search_term) if search_term.isdigit() else False)
+            )
+            .all()
+        )
         return results
-    
+
     def display_books(self) -> None:
         """
         TODO: Public an all books from library
@@ -72,12 +76,12 @@ class Library:
             print("[Library]: Нет доступных книг.")
             return
         for book in books:
-            print(f"[Library]: ID: {book.id}, Название: {book.title}, \
-            Автор: {book.author}, Год: {book.year}, Статус: {book.status}")
+            print(
+                f"[Library]: ID: {book.id}, Название: {book.title}, \
+            Автор: {book.author}, Год: {book.year}, Статус: {book.status}"
+            )
 
-    def change_status(self,
-                      book_id: int,
-                      new_status = "выдана"):
+    def change_status(self, book_id: int, new_status="выдана"):
         """
         :param book_id: int
         :param new_status: str. Is "в наличии" or "выдана"
@@ -85,11 +89,11 @@ class Library:
         """
         if not book_id:
             print(f"[Library]: Проверьте id книги.")
-            
+
         if new_status != "в наличии" and new_status != "выдана":
             print(f"[Library]: Проверьте статус.")
             return
-        
+
         try:
             book = self.session.query(Books).filter_by(id=int(book_id)).first()
             if not book:
@@ -98,7 +102,9 @@ class Library:
             if new_status in ["в наличии", "выдана"]:
                 book.status = new_status
                 self.session.commit()
-            print(f"[Library]: Статус книги с ID {book_id} \
-изменен на '{new_status}'.")
+            print(
+                f"[Library]: Статус книги с ID {book_id} \
+изменен на '{new_status}'."
+            )
         except Exception as e:
             print(f"[Library]: Проверьте id книги. ERROR => {e}")
