@@ -29,4 +29,19 @@ class Library:
         print(f"Книга '{title}' добавлена.")
        
     def remove_book(self, book_id: int) -> None:
-        pass
+        """
+        TODO: Here, we remove a book by book's index
+        :param book_id: int.
+        :return:
+        """
+        book = self.session.query(Books).filter_by(id=book_id)
+        status_text = "None"
+        if book:
+            self.session.delete(book)
+            self.session.commit()
+            status_text.replace("None",
+                                f"Книга с ID {book_id} удалена.")
+        else:
+            status_text.replace("None",
+                                f"Книга с ID {book_id} не найдена.")
+        print(f"[Library]: {status_text}")
