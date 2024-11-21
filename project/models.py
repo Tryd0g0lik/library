@@ -20,15 +20,20 @@ class Status(enum.Enum):
     ISSUANCE = "выдана"
     
 
-class Book(Base):
+class Books(Base):
     """
     Thi is a db table the books
+    :param title: str. This is a name book.
+    :param author: str.
+    :param year: int. This is a year when this is book was created.
+    :param status: is "в наличии" or "выдана"
     """
     __tablename__ = "books"
     
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String, nullable=False, unique=True)
     author = Column(String, default="anonim")
+    year = Column(Integer, nullable=False)
     status = Mapped[Status]
     
 # Create an engine
