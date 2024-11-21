@@ -14,7 +14,7 @@ def create_database_if_not_exsists(db_name: str)-> bool:
     """
     Def is only checking db. From entry point ('db_name') we receive a db name\
     and her will be look up in inside the postgresql. When returns the 'True' \
-    it means what we have a db name or 'False'.
+    it means what we not have a db name or 'False'.
     :param db_name: str This is a db name.
     :return:bool.
     """
@@ -33,14 +33,21 @@ def create_database_if_not_exsists(db_name: str)-> bool:
     cursor.execute(sql.SQL(sql_text), [db_name])
     exists = cursor.fitchone()
     
-    status = "None"
+    status_text = "None"
+    status = False
     if not exists:
         sql_text = "CREATE DATABASE {}".format(sql.Identifier(db_name))
         cursor.execute(sql_text)
-        status = f"[postgreSQL]: База данных '{db_name}' успешно создана."
+        status_text.replace("None",
+                            f"[postgreSQL]: База данных '{db_name}' успешно создана.")
+        status = True
     else:
-        status = f"[postgreSQL]: База данных '{db_name}' уже существует."
-    print(status)
+        status_text.replace("None",
+                            f"[postgreSQL]: База данных '{db_name}' уже существует.")
+
+    print(status_text)
     # CLOSE the connection
     cursor.close()
     connection.close()
+    
+    return status
