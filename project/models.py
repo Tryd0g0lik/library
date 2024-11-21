@@ -7,7 +7,8 @@ from sqlalchemy import (create_engine,
                         String)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import (Mapped, sessionmaker)
-from dotenv_ import DATABASE_URL
+from dotenv_ import DATABASE_URL, APP_POSTGRES_DBNAME
+from project.postcresbase import create_db, create_database_if_not_exsists
 
 # Create the basic class for declarative class
 Base = declarative_base()
@@ -35,10 +36,11 @@ class Books(Base):
     author = Column(String, default="anonim")
     year = Column(Integer, nullable=False)
     status = Mapped[Status]
-    
+
+create_database_if_not_exsists(f"{APP_POSTGRES_DBNAME}")
 # Create an engine
 engine = create_engine(DATABASE_URL)
-Base.metadata.create_all()
+Base.metadata.create_all(bind=engine)
 Session = sessionmaker(bind=engine)
 
 def get_session():

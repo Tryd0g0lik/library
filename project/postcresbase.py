@@ -2,12 +2,13 @@
 This is a file working only with the PostgreSQL db
 """
 import psycopg2
+from filelock import asyncio
 from psycopg2 import sql
 
 from dotenv_ import (APP_POSTGRES_LOGIN,
                      APP_POSTGRES_PASS,
                      APP_POSTGRES_PORT,
-                     APP_POSTGRES_HOST,)
+                     APP_POSTGRES_HOST, APP_POSTGRES_DBNAME, )
 
 
 def create_database_if_not_exsists(db_name: str)-> bool:
@@ -29,15 +30,15 @@ def create_database_if_not_exsists(db_name: str)-> bool:
     cursor = connection.cursor()
     
     # CHECK availability the tb_name of the postgres
-    sql_text = "SELECT 1 FROM pq_database WHERE datname = %s"
-    cursor.execute(sql.SQL(sql_text), [db_name])
-    exists = cursor.fitchone()
+    sql_text = "SELECT 1 FROM pg_database WHERE datname = %s"
+    cursor.execute(sql.SQL("SELECT 1 FROM pg_database WHERE datname = %s"),[db_name])
+    exists = cursor.fetchone()
     
     status_text = "None"
     status = False
     if not exists:
-        sql_text = "CREATE DATABASE {}".format(sql.Identifier(db_name))
-        cursor.execute(sql_text)
+        sql_text = f"CREATE DATABASE {db_name}"
+        cursor.execute(sql.SQL(sql_text))
         status_text.replace("None",
                             f"[postgreSQL]: База данных '{db_name}' успешно создана.")
         status = True
@@ -51,3 +52,7 @@ def create_database_if_not_exsists(db_name: str)-> bool:
     connection.close()
     
     return status
+async def create_db():
+    await asyncio.create_task(
+        create_database_if_not_exsists(f"{APP_POSTGRES_DBNAME}")
+    )
