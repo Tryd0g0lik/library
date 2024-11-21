@@ -45,3 +45,11 @@ class Library:
             status_text.replace("None",
                                 f"Книга с ID {book_id} не найдена.")
         print(f"[Library]: {status_text}")
+    
+    def find_books(self, search_term:str) -> None:
+        """
+        This is a method look up book by string's termns
+        :param search_term: str. This is the title or author, or year
+        :return:
+        """
+        results = None
