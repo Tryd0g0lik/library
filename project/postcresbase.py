@@ -6,7 +6,6 @@ from psycopg2 import sql
 
 from dotenv_ import (APP_POSTGRES_LOGIN,
                      APP_POSTGRES_PASS,
-                     APP_POSTGRES_DBNAME,
                      APP_POSTGRES_PORT,
                      APP_POSTGRES_HOST,)
 
@@ -23,5 +22,25 @@ def create_database_if_not_exsists(db_name: str)-> bool:
                                   password=f"{APP_POSTGRES_PASS}",
                                   host=f"{APP_POSTGRES_HOST}",
                                   port=f"{APP_POSTGRES_PORT}")
+    # AUTOCOMMIT
     connection.autocommit = True
+
+    # CURSOR
+    cursor = connection.cursor()
     
+    # CHECK availability the tb_name of the postgres
+    sql_text = "SELECT 1 FROM pq_database WHERE datname = %s"
+    cursor.execute(sql.SQL(sql_text), [db_name])
+    exists = cursor.fitchone()
+    
+    status = "None"
+    if not exists:
+        sql_text = "CREATE DATABASE {}".format(sql.Identifier(db_name))
+        cursor.execute(sql_text)
+        status = f"[postgreSQL]: База данных '{db_name}' успешно создана."
+    else:
+        status = f"[postgreSQL]: База данных '{db_name}' уже существует."
+    print(status)
+    # CLOSE the connection
+    cursor.close()
+    connection.close()
