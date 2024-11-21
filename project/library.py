@@ -18,6 +18,9 @@ class Library:
         :param status: is "в наличии" or "выдана"
         :return:
         """
+        if status != "в наличии" and status != "выдана":
+            print(f"[Library]: Книга '{title}' не добавлена. Неизвестный статус.")
+            return
         new_book = Books(
             title=title,
             author=author,
@@ -26,7 +29,7 @@ class Library:
         )
         self.session.add(new_book)
         self.session.commit()
-        print(f"Книга '{title}' добавлена.")
+        print(f"[Library]: Книга '{title}' добавлена.")
        
     def remove_book(self, book_id: int) -> None:
         """
@@ -66,8 +69,29 @@ class Library:
         """
         books = self.session.query(Books).all()
         if not books:
-            print("Нет доступных книг.")
+            print("[Library]: Нет доступных книг.")
             return
         for book in books:
-            print(f"ID: {book.id}, Название: {book.title}, \
+            print(f"[Library]: ID: {book.id}, Название: {book.title}, \
             Автор: {book.author}, Год: {book.year}, Статус: {book.status}")
+
+    def change_status(self,
+                      book_id: int,
+                      new_status = "выдана"):
+        """
+        :param book_id: int
+        :param new_status: str. Is "в наличии" or "выдана"
+        :return:
+        """
+        if new_status != "в наличии" and new_status != "выдана":
+            print(f"[Library]: Проверьте статус.")
+            return
+        book = self.session.query(Books).filter_by(id=book_id).first()
+        if not book:
+            print(f"[Library]: Книга с ID {book_id} не найдена. Проверьте ID")
+            return
+        if new_status in ["в наличии", "выдана"]:
+            book.status = new_status
+            self.session.commit()
+            print(f"[Library]: Статус книги с ID {book_id} \
+изменен на '{new_status}'.")
