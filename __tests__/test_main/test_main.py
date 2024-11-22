@@ -3,23 +3,12 @@ from unittest.mock import patch
 from io import StringIO
 from main import commands
 
-# Parametrize
-testdata = [
-    ("1",  True),
-    ]
+
 
 
 def test_main_add_book(mock_library, mock_console):
     # Мокируем ввод пользователя
-    inputs = [
-        '1',  # Выбор добавить книгу
-        'Книга 7',  # Название книги
-        'Автор 7',  # Автор книги
-        '2021',  # Год издания
-        '3',  # Выбор показать все книги
-        'Автор 7',  # Автор книги
-        '0'  # Выход
-    ]
+    
     
     with patch('builtins.input', side_effect=inputs), \
       patch('sys.stdout', new_callable=StringIO) as mock_stdout:
