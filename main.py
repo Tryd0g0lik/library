@@ -1,7 +1,7 @@
 from project.libraries import Library
 
 
-def main():
+def commands():
     library = Library()
     status = True
     while status:
@@ -56,4 +56,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    commands()
