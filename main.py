@@ -25,9 +25,11 @@ def commands():
             if len(str(year)) == 0 or len(title) == 0:
                 print("Не все поля заполнены.")
                 status = False
-                return
+                return status
+                
+            
             library.add_hook(title, author, year)
-
+            
         elif choice == "2":
             book_id = int(input("Введите ID книги для удаления: "))
             library.remove_book(int(book_id))

@@ -1,2 +1,2 @@
 [run]
-include = project/*, main.py
+include = project/*, */main.py
