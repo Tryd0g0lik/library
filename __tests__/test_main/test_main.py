@@ -1,23 +1,43 @@
-"""Testing an interface by add a book"""
-import pytest
-from unittest.mock import patch
+"""Test an interface by add a book"""
+
 from io import StringIO
+from unittest.mock import patch
+
+import pytest
 
 from __tests__.test_main.parameters.parameters_main_add_book import testdata
 from main import commands
 
+
 @pytest.mark.parametrize(
     "command_start, title, author, year,\
- command_child, author_search, command_end, expect", testdata
-    )
-def test_main_add_book(command_start, title, author, year,
-                   command_child, author_search, command_end, expect):
+ command_child, author_search, command_end, expect",
+    testdata,
+)
+def test_main_add_book(
+    command_start,
+    title,
+    author,
+    year,
+    command_child,
+    author_search,
+    command_end,
+    expect,
+):
     # Mock the input's data from user
-    
-    inputs = [command_start, title, author, year,
-              command_child, author_search, command_end]
-    with patch('builtins.input', side_effect=inputs), \
-      patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+
+    inputs = [
+        command_start,
+        title,
+        author,
+        year,
+        command_child,
+        author_search,
+        command_end,
+    ]
+    with patch("builtins.input", side_effect=inputs), patch(
+        "sys.stdout", new_callable=StringIO
+    ) as mock_stdout:
         """
         'builtins.input' - заглушка. 'side_effect' - данные для ввода
         'stdout' - получение из input
@@ -28,10 +48,8 @@ def test_main_add_book(command_start, title, author, year,
         commands()
         # Received data after input text/
         output = mock_stdout.getvalue()
-    
+
         assert expect in output
-
-
 
 
 # @pytest.fixture

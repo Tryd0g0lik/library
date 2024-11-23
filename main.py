@@ -26,13 +26,12 @@ def commands():
                 print("Не все поля заполнены.")
                 status = False
                 return status
-                
-            
+
             library.add_hook(title, author, year)
-            
+
         elif choice == "2":
-            book_id = int(input("Введите ID книги для удаления: "))
-            library.remove_book(int(book_id))
+            book_id = input("Введите ID книги для удаления: ")
+            library.remove_book(book_id)
 
         elif choice == "3":
             search_term = input("Введите название, автора или год для поиска: ")
