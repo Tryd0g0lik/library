@@ -1,15 +1,21 @@
+"""Testing an interface by add a book"""
 import pytest
 from unittest.mock import patch
 from io import StringIO
+
+from __tests__.test_main.parameters.parameters_main_add_book import testdata
 from main import commands
 
-
-
-
-def test_main_add_book(mock_library, mock_console):
-    # Мокируем ввод пользователя
+@pytest.mark.parametrize(
+    "command_start, title, author, year,\
+ command_child, author_search, command_end, expect", testdata
+    )
+def test_main_add_book(command_start, title, author, year,
+                   command_child, author_search, command_end, expect):
+    # Mock the input's data from user
     
-    
+    inputs = [command_start, title, author, year,
+              command_child, author_search, command_end]
     with patch('builtins.input', side_effect=inputs), \
       patch('sys.stdout', new_callable=StringIO) as mock_stdout:
         """
@@ -18,11 +24,12 @@ def test_main_add_book(mock_library, mock_console):
         'StringIO' - память для сохранения потока данных
         (mock_stdout.getvalue()) - '.getvalue()' получаем данные из 'StringIO'
         """
-        commands()  # Запуск функции
-        
-        output = mock_stdout.getvalue()  # Получаем вывод функции
+        # Run the library's logic
+        commands()
+        # Received data after input text/
+        output = mock_stdout.getvalue()
     
-    assert "Название: Книга 7" in output  #
+        assert expect in output
 
 
 
