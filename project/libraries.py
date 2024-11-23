@@ -15,7 +15,8 @@ class Library:
 
         self.session = get_session()
 
-    def add_hook(self, title: str, author: str, year: int, status="в наличии") -> bool:
+    def add_hook(self, title: str, author: str,
+                 year: int, status="в наличии") -> bool:
         """
         TODO: Add a new bork
         :param title: str. This is a name book.
@@ -24,8 +25,16 @@ class Library:
         :param status: is "в наличии" or "выдана"
         :return:
         """
+        if len(title) < 5 or len(author) < 5:
+            print(f"[Library]: Error => Проверьте Заголовок,\
+ Автора. Длина от 5 символов.")
+            return False
+        elif len(str(year)) < 4 or len(str(year)) > 4:
+            print(f"[Library]: Error => Год издания должен иметь 4 символа.")
+            return False
         if status != "в наличии" and status != "выдана":
-            print(f"[Library]: Книга '{title}' не добавлена. Неизвестный статус.")
+            print(f"[Library]: Книга '{title}'\
+ не добавлена. Неизвестный статус.")
             return False
         try:
             new_book = Books(title=title, author=author, year=year, status=status)

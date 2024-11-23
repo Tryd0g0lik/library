@@ -54,7 +54,10 @@ def commands():
             library.change_status(book_id, new_status)
 
         elif choice == "0":
+            library.close()
             break
+        else:
+            print("Проверьте команду.")
 
 
 if __name__ == "__main__":
