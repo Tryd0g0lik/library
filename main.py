@@ -1,7 +1,12 @@
+"""Here is the manager of library app"""
 from project.libraries import Library
 
 
 def commands():
+    """
+    This is the manager of library app
+    :return:
+    """
     library = Library()
     status = True
     while status:
