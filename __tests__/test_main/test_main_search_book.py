@@ -16,8 +16,7 @@ def test_main_search_book(command_start: [str, int],
     """
     :param command_start: [str, int]. First command.
     :param search_data: str. Data - what will have a search.
-    :param command_end: [str, int]. Child command between a search and \
-the search's result.
+    :param command_end: [str, int]. Complete.
     :param expect: str. Expected result
     :return:
     """

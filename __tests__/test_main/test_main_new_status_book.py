@@ -16,14 +16,14 @@ def test_main_search_book(command_start: [str, int], idbook: [str, int],
                           expect: str) -> None:
     """
     TODO: Thi is a test for interface the book search.
-    :param command_start: [str, int]. First command.
+    :param command_start: [str, int]    . First command.
     :param idbook: [str, int]. This id of book for search in db.
     :param status: str. New status.
-    :param command_child: [str, int]. In db will be to look up our old position.
+    :param command_child: [str, int]. In db will be to look up our \
+ old position.  Child command between a search and the search's result.
     :param search: str. Data - what will have a search.
-    :param command_end: [str, int]. Child command between a search and \
-the search's result.
-    :param expect`: str. Expected result`
+    :param command_end: [str, int]. Complete.
+    :param expect: str. Expected result`
     :return:
     """
     inputs = [command_start, idbook, status, command_child, search, command_end]
