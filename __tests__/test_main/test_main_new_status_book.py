@@ -23,7 +23,7 @@ def test_main_search_book(command_start: [str, int], idbook: [str, int],
     :param search: str. Data - what will have a search.
     :param command_end: [str, int]. Child command between a search and \
 the search's result.
-    :param expect:
+    :param expect`: str. Expected result`
     :return:
     """
     inputs = [command_start, idbook, status, command_child, search, command_end]
