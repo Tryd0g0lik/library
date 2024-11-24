@@ -1,3 +1,4 @@
+"""This is data for the test parameters_main_remove_book"""
 testdata_remove = [
     # Нет такого id
     ["2", 48, "0", "удалена"],  # ID книги
