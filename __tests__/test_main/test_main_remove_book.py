@@ -5,6 +5,7 @@ from unittest.mock import patch
 
 import pytest
 
+from __tests__.buffers import buffer
 from __tests__.test_main.parameters.parameters_main_remove_book import \
   testdata_remove
 from main import commands
@@ -22,10 +23,5 @@ def test_main_remove_book(command1, idbook, command2, expect):
     :return:
     """
     inputs = [command1, idbook, command2]
-    with patch("builtins.input", side_effect=inputs), patch(
-        "sys.stdout", new_callable=StringIO
-    ) as mock_stdout:
-        commands()
-        # Received data after input text
-        output = mock_stdout.getvalue()
-        assert expect in output
+    output = buffer(inputs)
+    assert expect in output
