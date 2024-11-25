@@ -2,7 +2,7 @@
 
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Mapped, sessionmaker
+from sqlalchemy.orm import sessionmaker
 
 from dotenv_ import APP_POSTGRES_DBNAME, DATABASE_URL
 from project.postcresbase import create_database_if_not_exsists

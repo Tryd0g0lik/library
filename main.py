@@ -1,4 +1,5 @@
 """Here is the manager of library app"""
+
 from project.libraries import Library
 
 
@@ -39,7 +40,7 @@ def commands():
             library.remove_book(book_id)
 
         elif choice == "3":
-            search_term = input("Введите название, автора или год для поиска: ")
+            search_term = input("Введите название автора или год для поиска: ")
             results = library.find_books(search_term)
             if results:
                 for book in results:
