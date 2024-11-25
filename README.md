@@ -113,6 +113,7 @@ pytest --maxfail=1 --tb=auto --console_output_style=classic
 ```text
 python main.py
 ```
+
 #### Для работы через PyCharm
 
 ```text
@@ -120,3 +121,7 @@ Env. Var.: PYTHONUNBUFFERED=1,  PYTHONTRACEMALLOC=1, PWDEBUG=1,
 Parameters: pytest --maxfail=1 --tb=auto --console_output_style=classic
 ```
 ![pycharm](./img/pycharm.png)
+
+## JSON
+Файл `__tests__/test_main/moks.py` где в теле логики и заложена работа с JSON.\
+Но сама заглушка не потребовалась , так как работу с БД тоже надо протестировать.
